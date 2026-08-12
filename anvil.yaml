@@ -1,4 +1,77 @@
 allow_embedding: false
+db_schema:
+  doses:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      client_hidden: false
+      name: medication
+      target: medications
+      type: link_single
+    indexes: []
+    server: full
+    title: doses
+  medications:
+    client: none
+    columns:
+    - admin_ui: {order: 1, width: 200}
+      client_hidden: false
+      name: name
+      type: string
+    - admin_ui: {order: 2, width: 200}
+      client_hidden: false
+      name: quantity
+      type: number
+    - admin_ui: {order: 3, width: 200}
+      client_hidden: false
+      name: frequency
+      type: string
+    - admin_ui: {order: 4, width: 200}
+      client_hidden: false
+      name: days_of_week
+      type: simpleObject
+    - admin_ui: {order: 5, width: 200}
+      client_hidden: false
+      name: icon
+      type: media
+    - admin_ui: {order: -1, width: 200}
+      client_hidden: false
+      name: user
+      target: users
+      type: link_single
+    indexes: []
+    server: full
+    title: Medications
+  users:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      client_hidden: false
+      name: email
+      type: string
+    - admin_ui: {order: 1, width: 200}
+      client_hidden: true
+      name: enabled
+      type: bool
+    - admin_ui: {order: 2, width: 200}
+      client_hidden: true
+      name: last_login
+      type: datetime
+    - admin_ui: {order: 3, width: 200}
+      client_hidden: true
+      name: password_hash
+      type: string
+    - admin_ui: {order: 4, width: 200}
+      client_hidden: true
+      name: n_password_failures
+      type: number
+    - admin_ui: {order: 5, width: 200}
+      client_hidden: true
+      name: confirmed_email
+      type: bool
+    indexes: []
+    server: full
+    title: Users
 dependencies: []
 name: Applied computing MyMed
 package_name: Applied_computing_MyMed
@@ -12,4 +85,8 @@ services:
 - client_config: {enable_v2: true}
   server_config: {}
   source: /runtime/services/tables.yml
-startup_form: Form1
+- client_config: {allow_signup: false, confirm_email: true, enable_automatically: true, use_email: true}
+  server_config: {user_table: users}
+  source: /runtime/services/anvil/users.yml
+startup: {module: MainLayout, type: form}
+startup_form: null
